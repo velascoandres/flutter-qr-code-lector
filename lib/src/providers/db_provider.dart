@@ -36,7 +36,7 @@ class DBProvider {
   }
 
   // crear registro
-  nuevoScan(ScanModel nuevoScan) async {
+  Future<int> nuevoScan(ScanModel nuevoScan) async {
     final db = await dataBase;
 
     final resultadoInsercion = await db.insert(
@@ -48,7 +48,7 @@ class DBProvider {
   }
 
   // Actualizar registro
-  actualizarRegistro(ScanModel scan) async {
+  Future<int> actualizarRegistro(ScanModel scan) async {
     final db = await dataBase;
 
     final resultado = await db.update(
@@ -56,6 +56,30 @@ class DBProvider {
       scan.toJson(),
       where: 'id = ?',
       whereArgs: [scan.id],
+    );
+
+    return resultado;
+  }
+
+  // Eliminar registro
+  Future<int> eliminarRegistro(int id) async {
+    final db = await dataBase;
+
+    final resultado = await db.delete(
+      'Scans',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+
+    return resultado;
+  }
+
+  // Eliminar todos los registros
+  Future<int> eliminarTodo() async {
+    final db = await dataBase;
+
+    final resultado = await db.rawDelete(
+      'DELETE FROM Scans',
     );
 
     return resultado;
