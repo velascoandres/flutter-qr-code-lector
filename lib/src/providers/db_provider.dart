@@ -35,7 +35,7 @@ class DBProvider {
     );
   }
 
-  // CREAR REGISTROS
+  // crear registro
   nuevoScan(ScanModel nuevoScan) async {
     final db = await dataBase;
 
@@ -45,6 +45,20 @@ class DBProvider {
     );
 
     return resultadoInsercion;
+  }
+
+  // Actualizar registro
+  actualizarRegistro(ScanModel scan) async {
+    final db = await dataBase;
+
+    final resultado = await db.update(
+      'Scans',
+      scan.toJson(),
+      where: 'id = ?',
+      whereArgs: [scan.id],
+    );
+
+    return resultado;
   }
 
   // Obtener informacion por id
