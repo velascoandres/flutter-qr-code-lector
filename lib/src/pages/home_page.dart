@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_lector/src/pages/mapas_page.dart';
 import 'package:barcode_scan/barcode_scan.dart';
+import 'package:qr_code_lector/src/providers/db_provider.dart';
 
 import 'direcciones_page.dart';
+
+export 'package:qr_code_lector/src/models/scan_model.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -89,6 +92,12 @@ class _HomePageState extends State<HomePage> {
     } catch (e) {
       futureString = e.toString();
     }
-    print(futureString);
+
+    if (futureString != null) {
+      final nuevoScan = ScanModel(
+        valor: futureString,
+      );
+      DBProvider.db.nuevoScan(nuevoScan);
+    }
   }
 }

@@ -5,6 +5,8 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 
+export 'package:qr_code_lector/src/models/scan_model.dart';
+
 class DBProvider {
   static Database _database;
   static final DBProvider db = DBProvider._();
@@ -26,11 +28,13 @@ class DBProvider {
       version: 1,
       onOpen: (db) {},
       onCreate: (Database db, int version) async {
-        await db.execute('CREATE TABLE Scans ( '
-            ' id INTEGER PRIMARY KEY,'
-            ' tipo TEXT,'
-            ' valor TEXT,'
-            ')');
+        await db.execute(
+          'CREATE TABLE Scans ('
+          ' id INTEGER PRIMARY KEY,'
+          ' tipo TEXT,'
+          ' valor TEXT'
+          ')',
+        );
       },
     );
   }
@@ -105,7 +109,7 @@ class DBProvider {
 
   List<ScanModel> _procesarRespuesta(
       List<Map<String, dynamic>> resultadoBusqueda) {
-    if (resultadoBusqueda.isEmpty) {
+    if (resultadoBusqueda.isNotEmpty) {
       return resultadoBusqueda
           .map(
             (dynamic rawScan) => ScanModel.fromJson(rawScan),
