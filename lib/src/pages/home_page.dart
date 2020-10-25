@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.filter_center_focus),
-        onPressed: _scanQR,
+        onPressed:() => _scanQR(context),
         backgroundColor: Theme.of(context).primaryColor,
       ),
     );
@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _scanQR() async {
+  _scanQR(BuildContext context) async {
     // https://github.com/
     // geo:40.2323, -73.131231
     ScanResult resultado;
@@ -98,18 +98,18 @@ class _HomePageState extends State<HomePage> {
       final nuevoScan = ScanModel(
         valor: futureString,
       );
-      // final nuevoScan2 = ScanModel(
-      //   valor: 'geo:40.2323, -73.131231',
-      // );
+      final nuevoScan2 = ScanModel(
+        valor: 'geo:40.2323, -73.131231',
+      );
       scanBloc.agregarScan(nuevoScan);
-      // scanBloc.agregarScan(nuevoScan2);
+      scanBloc.agregarScan(nuevoScan2);
       if (Platform.isIOS) {
         Future.delayed(
           Duration(microseconds: 750),
-          () => utils.abrirScan(nuevoScan),
+          () => utils.abrirScan(context, nuevoScan),
         );
       } else {
-        utils.abrirScan(nuevoScan);
+        utils.abrirScan(context, nuevoScan);
       }
     }
   }

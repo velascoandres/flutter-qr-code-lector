@@ -1,7 +1,9 @@
-import 'package:qr_code_lector/src/providers/db_provider.dart';
+import 'package:flutter/material.dart';
+
+import 'package:qr_code_lector/src/models/scan_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-abrirScan(ScanModel scanModel) async {
+abrirScan(BuildContext context, ScanModel scanModel) async {
   final esHttp = scanModel.tipo;
   if (esHttp == 'http') {
     final url = scanModel.valor;
@@ -12,6 +14,6 @@ abrirScan(ScanModel scanModel) async {
     }
   } else {
     final geo = scanModel.valor;
-    print('GEO: $geo');
+    Navigator.pushNamed(context, 'mapa', arguments: scanModel);
   }
 }
