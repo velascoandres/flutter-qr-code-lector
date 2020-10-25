@@ -26,4 +26,11 @@ class ScanModel {
         "tipo": tipo,
         "valor": valor,
       };
+
+  List<double> get latLong {
+    final List<String> lalongRaw = valor.substring(4).split(',');
+    final lat = double.parse(lalongRaw[0]);
+    final long = double.parse(lalongRaw[1]);
+    return [lat, long];
+  }
 }
