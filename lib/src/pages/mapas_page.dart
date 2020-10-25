@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_lector/src/bloc/scans_bloc.dart';
 import 'package:qr_code_lector/src/models/scan_model.dart';
+import 'package:qr_code_lector/src/utils/utils.dart' as utils;
 
 class MapasPage extends StatelessWidget {
   MapasPage({Key key}) : super(key: key);
@@ -31,6 +32,7 @@ class MapasPage extends StatelessWidget {
                 scansBloc.borrarScan(id);
               },
               child: ListTile(
+                onTap: () => utils.abrirScan(scans[i]),
                 leading: Icon(
                   Icons.cloud_queue,
                   color: Theme.of(context).primaryColor,
