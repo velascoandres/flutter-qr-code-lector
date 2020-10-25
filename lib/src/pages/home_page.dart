@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:qr_code_lector/src/bloc/scans_bloc.dart';
+import 'package:qr_code_lector/src/models/scan_model.dart';
 import 'package:qr_code_lector/src/pages/mapas_page.dart';
 import 'package:barcode_scan/barcode_scan.dart';
-import 'package:qr_code_lector/src/providers/db_provider.dart';
 
 import 'direcciones_page.dart';
-
-export 'package:qr_code_lector/src/models/scan_model.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key key}) : super(key: key);
@@ -17,6 +16,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int paginaActual = 0;
 
+  final scanBloc = new ScansBloc();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,11 +26,7 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             icon: Icon(Icons.delete_forever),
-            onPressed: () {},
-          ),
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {},
+            onPressed: scanBloc.borrarScanTodo,
           ),
         ],
       ),
@@ -85,19 +82,20 @@ class _HomePageState extends State<HomePage> {
     // https://github.com/
     // geo:40.2323, -73.131231
     ScanResult resultado;
-    String futureString = '';
-    try {
-      resultado = await BarcodeScanner.scan();
-      futureString = resultado.rawContent;
-    } catch (e) {
-      futureString = e.toString();
-    }
+    // String futureString = '';
+    String futureString = 'https://github.com/';
+    // try {
+    //   resultado = await BarcodeScanner.scan();
+    //   futureString = resultado.rawContent;
+    // } catch (e) {
+    //   futureString = e.toString();
+    // }
 
     if (futureString != null) {
       final nuevoScan = ScanModel(
         valor: futureString,
       );
-      DBProvider.db.nuevoScan(nuevoScan);
+      scanBloc.agregarScan(nuevoScan);
     }
   }
 }
