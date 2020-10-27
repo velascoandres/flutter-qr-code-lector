@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:mapbox_gl/mapbox_gl.dart';
 import 'package:qr_code_lector/src/constantes/tokens.dart';
 import 'package:qr_code_lector/src/models/scan_model.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong/latlong.dart';
+
 
 class MapaPage extends StatefulWidget {
   MapaPage({Key key}) : super(key: key);
@@ -12,6 +13,10 @@ class MapaPage extends StatefulWidget {
 }
 
 class _MapaPageState extends State<MapaPage> {
+
+    MapboxMapController mapController;
+
+
   @override
   Widget build(BuildContext context) {
     final ScanModel scanModel = ModalRoute.of(context).settings.arguments;
@@ -26,22 +31,22 @@ class _MapaPageState extends State<MapaPage> {
           )
         ],
       ),
-      body: _crearFlutterMapa(scanModel),
+      body: _renderizarMapa(),
     );
   }
 
-  Widget _crearFlutterMapa(ScanModel scanModel) {
-    final latLong = scanModel.latLong;
-    return FlutterMap(
-      options: MapOptions(
-        center: LatLng(latLong[0], latLong[1]),
-        zoom: 10,
-      ),
-      layers: [
-        _crearMapa(latLong[0], latLong[1]),
-      ],
-    );
-  }
+  // Widget _crearFlutterMapa(ScanModel scanModel) {
+  //   final latLong = scanModel.latLong;
+  //   return FlutterMap(
+  //     options: MapOptions(
+  //       center: LatLng(latLong[0], latLong[1]),
+  //       zoom: 10,
+  //     ),
+  //     layers: [
+  //       _crearMapa(latLong[0], latLong[1]),
+  //     ],
+  //   );
+  // }
 
   LayerOptions _crearMapa(x, y) {
     // https://api.mapbox.com/styles/v1/mapbox/outdoors-v11/static/-115.84178,37.21776,12/500x500@2x?access_token=pk.eyJ1IjoidmVsYXNjb2FuZHJzIiwiYSI6ImNrZ3BncWE4ZjA5czUyenFxMmM1MTh2b2sifQ.o6faeXYecXpVa01RabAilQ
@@ -55,6 +60,18 @@ class _MapaPageState extends State<MapaPage> {
         'id': 'mapbox.dark',
       },
     );
+  }
+
+  _renderizarMapa() {
+    return MapboxMap(
+      accessToken: TOKENS['mapbox'],
+      onMapCreated: _onMapCreated,
+      initialCameraPosition: CameraPosition(target: LatLng(0.0, 0.0)),
+    );
+  }
+
+  void _onMapCreated(MapboxMapController controller) {
+    mapController = controller;
   }
 }
 
