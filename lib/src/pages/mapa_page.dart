@@ -4,7 +4,6 @@ import 'package:qr_code_lector/src/constantes/tokens.dart';
 import 'package:qr_code_lector/src/models/scan_model.dart';
 import 'package:flutter_map/flutter_map.dart';
 
-
 class MapaPage extends StatefulWidget {
   MapaPage({Key key}) : super(key: key);
 
@@ -13,9 +12,7 @@ class MapaPage extends StatefulWidget {
 }
 
 class _MapaPageState extends State<MapaPage> {
-
-    MapboxMapController mapController;
-
+  MapboxMapController mapController;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +28,7 @@ class _MapaPageState extends State<MapaPage> {
           )
         ],
       ),
-      body: _renderizarMapa(),
+      body: _renderizarMapa(scanModel),
     );
   }
 
@@ -62,11 +59,18 @@ class _MapaPageState extends State<MapaPage> {
     );
   }
 
-  _renderizarMapa() {
+  _renderizarMapa(ScanModel scanModel) {
+    final latLong = scanModel.latLong;
     return MapboxMap(
       accessToken: TOKENS['mapbox'],
       onMapCreated: _onMapCreated,
-      initialCameraPosition: CameraPosition(target: LatLng(0.0, 0.0)),
+      initialCameraPosition: CameraPosition(
+        zoom: 15,
+        target: LatLng(
+          latLong[0],
+          latLong[1],
+        ),
+      ),
     );
   }
 
