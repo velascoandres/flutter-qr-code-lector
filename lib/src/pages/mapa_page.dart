@@ -35,7 +35,7 @@ class _MapaPageState extends State<MapaPage> {
     return FlutterMap(
       options: MapOptions(
         center: LatLng(latLong[0], latLong[1]),
-        zoom: 20,
+        zoom: 10,
       ),
       layers: [
         _crearMapa(latLong[0], latLong[1]),
@@ -46,12 +46,13 @@ class _MapaPageState extends State<MapaPage> {
   LayerOptions _crearMapa(x, y) {
     // https://api.mapbox.com/styles/v1/mapbox/outdoors-v11/static/-115.84178,37.21776,12/500x500@2x?access_token=pk.eyJ1IjoidmVsYXNjb2FuZHJzIiwiYSI6ImNrZ3BncWE4ZjA5czUyenFxMmM1MTh2b2sifQ.o6faeXYecXpVa01RabAilQ
     return TileLayerOptions(
-      urlTemplate: 'https://api.mapbox.com/styles/v1/mapbox/'
-          'outdoors-v11/static/{x},{y},20/500x500@2x?access_token={accessToken}',
+      urlTemplate: 'https://api.mapbox.com/v4/'
+          '{id}/{z}/{x},{y}@2x.png?access_token={accessToken}',
       additionalOptions: {
         'accessToken': TOKENS['mapbox'],
-        'y': x.toString(),
-        'x': y.toString(),
+        'y': y.toString(),
+        'x': x.toString(),
+        'id': 'mapbox.dark',
       },
     );
   }
