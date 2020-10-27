@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
         valor: futureString,
       );
       final nuevoScan2 = ScanModel(
-        valor: 'geo:40.2323, -73.131231',
+        valor: 'geo:-0.1913162,-78.4867421,17.65',
       );
       scanBloc.agregarScan(nuevoScan);
       scanBloc.agregarScan(nuevoScan2);
